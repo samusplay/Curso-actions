@@ -1,0 +1,31 @@
+# El nombre del workflow, aparecerá en la pestaña "Actions" de GitHub
+name: Aprendiendo GitHub Actions
+
+# El nombre que tendrá la ejecución en los logs de GitHub (opcional)
+run-name: ¡Estoy aprendiendo GitHub Actions!
+
+# Define cuándo se ejecutará este workflow. Aquí se activa con cada `push` al repositorio
+on: [push]
+
+# Definimos los trabajos (jobs) que este workflow ejecutará
+jobs:
+  # Nombre del job (puedes cambiarlo si quieres)
+  hola-mundo:
+    # Especifica que el job se ejecutará en un entorno Ubuntu
+    runs-on: ubuntu-latest
+
+    # Lista de pasos a ejecutar dentro del job
+    steps:
+      # Paso 1: Clonar el repositorio en el entorno de ejecución
+      - name: Checkout
+        uses: actions/checkout@v3 # Utiliza la acción oficial para clonar el código
+
+      # Paso 2: Definir una variable de entorno llamada "USERNAME"
+      - name: Definir variable
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+        # ${{ github.actor }} obtiene el nombre de usuario que activó el workflow
+        # El valor se guarda en una variable de entorno disponible para otros pasos
+
+      # Paso 3: Ejecutar el script de Python llamado "hola_mundo.py"
+      - name: Correr script
+        run: python hola_mundo.py
